@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -14,11 +15,17 @@ from .forms import AddUserForm, LoginForm
 from .tokens import account_activation_token
 
 def index(request):
+    if request.user.is_authenticated:
+        return render(request, 'items/dashboard.html')
+
     context = {
         "addUserForm": AddUserForm,
         "loginForm": LoginForm,
     }
     return render(request, 'users/signup.html', context)
+
+# def home(request):
+
 
 @csrf_exempt
 # @require_http_methods(["POST"])

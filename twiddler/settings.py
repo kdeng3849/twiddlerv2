@@ -32,7 +32,10 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'twiddler',
+    'items',
+    'users',
     'crispy_forms',
+    'database_files',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,6 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'twiddler',
+        'HOST': '130.245.169.94',
     }
 }
 
@@ -131,3 +135,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
+
+# DEFAULT_FILE_STORAGE = 'django_mongodb_engine.storage.GridFSStorage'
+DEFAULT_FILE_STORAGE = 'database_files.storage.DatabaseStorage'
+DB_FILES_AUTO_EXPORT_DB_TO_FS = False
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
