@@ -29,5 +29,6 @@ urlpatterns = [
     path('login', users.views.login_user, name="login"),
     path('verify', users.views.verify, name="verify"),
     path('logout', users.views.logout_user, name="logout"),
-    path('additem', items.views.additem, name="additem"),
+    path('additem', items.views.add_item, name="additem"),
+    path('item/<int:id>', items.views.get_item, name="additem"),
 ]

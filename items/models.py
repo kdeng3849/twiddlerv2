@@ -6,7 +6,12 @@ class ItemProperty(models.Model):
     likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.likes
+        prop = {"likes": self.likes}
+        return str(prop)
+
+    # def __dict__(self):
+    #     prop = {'likes': self.likes}
+    #     return prop
 
 class Item(models.Model):
     id = models.CharField(primary_key=True, max_length=50)
