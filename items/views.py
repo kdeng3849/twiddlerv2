@@ -1,13 +1,16 @@
+import time
 import json
 import uuid
 
 from django.core import serializers
 from django.http.response import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Item, ItemProperty
 # from .serializers import ItemSerializer
+from .utils import to_dict
 
-# Create your views here.
+@csrf_exempt
 def add_item(request):
     data = json.loads(request.body, encoding='utf-8')
 
@@ -37,10 +40,6 @@ def add_item(request):
     return JsonResponse(context)
 
 def get_item(request, id):
-    response = {
-        'status': 'OK',
-        'item': {}
-    }
     try:
         query = Item.objects.get(id=id)
         # query = list(Item.objects.filter(id=id).values('id', 'username', 'property', 'retweeted', 'content', 'timestamp'))
@@ -55,15 +54,15 @@ def get_item(request, id):
     # data = ItemSerializer(item)
     # print(data)
     # jsondata = json.dumps(data)
-    item = {}
-    item['id'] = query.id
-    item['username'] = query.username
-    item['property'] = {}
-    item['property']['likes'] = query.property.likes
-    item['retweeted'] = query.retweeted
-    item['content'] = query.content
-    item['timestamp'] = query.timestamp
-
+    # item = {}
+    # item['id'] = query.id
+    # item['username'] = query.username
+    # item['property'] = {}
+    # item['property']['likes'] = query.property.likes
+    # item['retweeted'] = query.retweeted
+    # item['content'] = query.content
+    # item['timestamp'] = query.timestamp
+    item = to_dict(query)
     context = {
         'status': 'OK',
         'item': item,
@@ -71,3 +70,27 @@ def get_item(request, id):
 
     # return HttpResponse(context, content_type='application/json')
     return JsonResponse(context)
+
+@csrf_exempt
+def search(request):
+    data = json.loads(request.body, encoding='utf-8') if request.body else {}
+    timestamp = data.get('timestamp') or time.time()
+    limit = data.get('limit') or 25
+
+    if limit > 100:
+        response = {
+            'status': 'ERROR',
+            'error': 'limit must not be greater than 100'
+        }
+        return JsonResponse(response)
+
+    response = {
+        'status': 'OK',
+        'items': [],
+    }
+
+    query = list(Item.objects.filter(timestamp__lte=timestamp)[:limit])
+    for item in query:
+        response['items'].append(to_dict(item))
+
+    return JsonResponse(response)

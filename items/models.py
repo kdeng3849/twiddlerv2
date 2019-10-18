@@ -9,10 +9,6 @@ class ItemProperty(models.Model):
         prop = {"likes": self.likes}
         return str(prop)
 
-    # def __dict__(self):
-    #     prop = {'likes': self.likes}
-    #     return prop
-
 class Item(models.Model):
     id = models.CharField(primary_key=True, max_length=50)
     # content = models.FileField()
