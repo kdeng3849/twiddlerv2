@@ -4,11 +4,22 @@ import uuid
 
 from django.core import serializers
 from django.http.response import HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Item, ItemProperty
 # from .serializers import ItemSerializer
 from .utils import to_dict
+
+def home(request):
+    context = {
+        'items': []
+    }
+    query = list(Item.objects.filter(timestamp__lte=time.time())[:10])
+    for item in query:
+        context['items'].append(to_dict(item))
+
+    return render(request, 'items/home.html', context)
 
 @csrf_exempt
 def add_item(request):

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -16,16 +16,12 @@ from .tokens import account_activation_token
 
 def index(request):
     if request.user.is_authenticated:
-        return render(request, 'items/dashboard.html')
+        return redirect('/home')
 
     context = {
         "addUserForm": AddUserForm,
-        "loginForm": LoginForm,
     }
     return render(request, 'users/signup.html', context)
-
-# def home(request):
-
 
 @csrf_exempt
 # @require_http_methods(["POST"])

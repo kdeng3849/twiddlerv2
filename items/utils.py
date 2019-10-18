@@ -1,11 +1,11 @@
-def to_dict(model):
-    item = {}
-    item['id'] = model.id
-    item['username'] = model.username
-    item['property'] = {}
-    item['property']['likes'] = model.property.likes
-    item['retweeted'] = model.retweeted
-    item['content'] = model.content
-    item['timestamp'] = model.timestamp
+def to_dict(item):
+    obj = {}
+    obj['id'] = item.id
+    obj['username'] = item.username
+    obj['property'] = {}
+    obj['property']['likes'] = item.property.likes
+    obj['retweeted'] = item.retweeted
+    obj['content'] = item.content
+    obj['timestamp'] = item.timestamp
 
-    return item
+    return obj

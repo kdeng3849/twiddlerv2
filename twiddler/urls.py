@@ -29,6 +29,7 @@ urlpatterns = [
     path('login', users.views.login_user, name="login"),
     path('verify', users.views.verify, name="verify"),
     path('logout', users.views.logout_user, name="logout"),
+    path('home', items.views.home, name="home"),
     path('additem', items.views.add_item, name="additem"),
     path('item/<int:id>', items.views.get_item, name="getitem"),
     path('search', items.views.search, name="search"),
