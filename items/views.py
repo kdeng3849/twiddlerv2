@@ -15,7 +15,7 @@ def home(request):
     context = {
         'items': []
     }
-    query = list(Item.objects.filter(timestamp__lte=time.time())[:10])
+    query = list(Item.objects.filter(timestamp__lte=time.time()).order_by('-timestamp')[:10])
     for item in query:
         context['items'].append(to_dict(item))
 
@@ -100,7 +100,7 @@ def search(request):
         'items': [],
     }
 
-    query = list(Item.objects.filter(timestamp__lte=timestamp)[:limit])
+    query = list(Item.objects.filter(timestamp__lte=timestamp).order_by('-timestamp')[:limit])
     for item in query:
         response['items'].append(to_dict(item))
 
