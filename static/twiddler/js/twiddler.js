@@ -46,6 +46,14 @@ $(function () {
         resetGame();
     })
 
+    $('button.post-new').click(() => {
+        addItem('new');
+    })
+
+    $('button.post-reply').click(() => {
+        addItem('reply');
+    })
+
     $('#signupForm').submit(function(event) {
         event.preventDefault();
 
@@ -168,38 +176,40 @@ $(function () {
         })
     })
 
-    $('form.post-new').submit(function(event) {
-        event.preventDefault();
-
-        var data = $(this).serializeArray().reduce((dict, field) => {
-            dict[field.name] = field.value;
-            return dict;
-        }, {});
-        data['childType'] = null;
-        
-        fetch("/additem", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": data['csrfmiddlewaretoken']
-            },
-            redirect: "follow",
-            referrer: "no-referrer",
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(response => {
-            console.log(response);
+    function addItem(type) {
+        $('form.post-' + type).submit(function(event) {
+            event.preventDefault();
+    
+            var data = $(this).serializeArray().reduce((dict, field) => {
+                dict[field.name] = field.value;
+                return dict;
+            }, {});
+            data['childType'] = type=='new' ? null : type;
             
-            // if(response.status == "OK")
+            fetch("/additem", {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": data['csrfmiddlewaretoken']
+                },
+                redirect: "follow",
+                referrer: "no-referrer",
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                console.log(response);
                 
+                // if(response.status == "OK")
+                    
+            })
         })
-    })
+    }
 
     function getCookie(cname) {
         var name = cname + "=";
