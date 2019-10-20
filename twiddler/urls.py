@@ -33,4 +33,5 @@ urlpatterns = [
     path('additem', items.views.add_item, name="additem"),
     path('item/<int:id>', items.views.get_item, name="getitem"),
     path('search', items.views.search, name="search"),
+    path('like', items.views.like, name="like"),
 ]

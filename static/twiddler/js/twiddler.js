@@ -54,6 +54,36 @@ $(function () {
         addItem('reply');
     })
 
+    $('a.like').click(function() {
+        data = {
+            "id": this.id,
+        }
+
+        fetch("/like", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(response => {
+            console.log(response);
+            
+            if(response.status == "OK") {
+                $('span.likes-' + this.id).html(response.likes)
+            }
+        })
+        
+    })
+
     $('#signupForm').submit(function(event) {
         event.preventDefault();
 

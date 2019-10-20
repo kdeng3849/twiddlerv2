@@ -6,6 +6,7 @@ from django.core import serializers
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from .models import Item, ItemProperty
 # from .serializers import ItemSerializer
@@ -104,4 +105,24 @@ def search(request):
     for item in query:
         response['items'].append(to_dict(item))
 
+    return JsonResponse(response)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def like(request):
+    data = json.loads(request.body, encoding='utf-8')
+    print(data)
+    id = data['id']
+
+    try:
+        item = Item.objects.get(id=id)
+        item.property.likes += 1
+        item.save()
+    except:
+        return JsonResponse({'status': 'ERROR'})
+
+    response = {
+        'status': 'OK',
+        'likes': item.property.likes,
+    }
     return JsonResponse(response)
