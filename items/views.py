@@ -13,6 +13,7 @@ from .models import Item, ItemProperty
 from .utils import to_dict
 
 def home(request):
+
     context = {
         'items': []
     }
@@ -24,6 +25,9 @@ def home(request):
 
 @csrf_exempt
 def add_item(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error'})
+
     data = json.loads(request.body, encoding='utf-8')
 
     try:
@@ -110,6 +114,9 @@ def search(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def like(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error'})
+
     data = json.loads(request.body, encoding='utf-8')
     print(data)
     id = data['id']

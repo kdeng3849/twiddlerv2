@@ -60,12 +60,13 @@ def add_user(request):
         mail_subject = 'Activate your TTT account'
         key = account_activation_token.make_token(user)
         print(key) ###
-        message = render_to_string('users/email_verification.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'email': user.email,
-            'key': key,
-        })
+        # message = render_to_string('users/email_verification.html', {
+        #     'user': user,
+        #     'domain': current_site.domain,
+        #     'email': user.email,
+        #     'key': key,
+        # })
+        message = 'validation key: <' + key + '>'
         to_email = form.cleaned_data.get('email')
         email = EmailMessage(
             mail_subject, message, to=[to_email]

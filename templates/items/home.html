@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="mx-5">
+    {% if user.is_authenticated %}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <form class="post-new">{% csrf_token %}
             <h2 class="mb-3">Home</h2>
@@ -17,8 +18,9 @@
             </div>
             <button type="submit" class="post-new btn btn-primary rounded-pill px-5">Toot</button>
         </form>
-                  
     </div>
+    {% endif %}
+       
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0">Recent posts</h6>
         {% for item in items %}
