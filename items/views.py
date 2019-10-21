@@ -32,7 +32,7 @@ def add_item(request):
         # child_type = data['childType']
     except KeyError:
         context = {
-            'status': 'ERROR',
+            'status': 'error',
             'error': "POST body must include properties 'content', 'parent', and 'media' in the form of JSON",
         }
         return JsonResponse(context)
@@ -57,7 +57,7 @@ def get_item(request, id):
         # query = list(Item.objects.filter(id=id).values('id', 'username', 'property', 'retweeted', 'content', 'timestamp'))
     except:
         context = {
-            'status': 'ERROR',
+            'status': 'error',
             'error': 'Invalid item ID'
         }
         return JsonResponse(context)
@@ -91,7 +91,7 @@ def search(request):
 
     if limit > 100:
         response = {
-            'status': 'ERROR',
+            'status': 'error',
             'error': 'limit must not be greater than 100'
         }
         return JsonResponse(response)
@@ -119,7 +119,7 @@ def like(request):
         item.property.likes += 1
         item.save()
     except:
-        return JsonResponse({'status': 'ERROR'})
+        return JsonResponse({'status': 'error'})
 
     response = {
         'status': 'OK',

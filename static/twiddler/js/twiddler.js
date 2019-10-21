@@ -54,11 +54,41 @@ $(function () {
         addItem('reply');
     })
 
-    $('a.like').click(function() {
+    $('button.post-retweet').click(() => {
         data = {
-            "id": this.id,
+            // "content": 
+            "childType": "tweet",
         }
+        fetch("/additem", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": data['csrfmiddlewaretoken']
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(response => {
+            console.log(response);
+            
+            // if(response.status == "OK")
+                
+        })
+    })
 
+    $('button.like').click(function() {
+        var id = this.id.split("-")[1];
+        var data = {
+            "id": id,
+        }
+        console.log(data)
         fetch("/like", {
             method: "POST",
             mode: "cors",
@@ -78,7 +108,7 @@ $(function () {
             console.log(response);
             
             if(response.status == "OK") {
-                $('span.likes-' + this.id).html(response.likes)
+                $('span.likes-' + id).html(response.likes)
             }
         })
         

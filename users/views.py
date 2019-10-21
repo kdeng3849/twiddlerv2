@@ -48,7 +48,7 @@ def add_user(request):
             #     return render(request, "users/verify.html", context)
 
             context = {
-                "status": "ERROR",
+                "status": "error",
             }
             return JsonResponse(context)
 
@@ -111,7 +111,7 @@ def verify(request):
 
         return JsonResponse({"status": "OK"})
 
-    return JsonResponse({"status": "ERROR"})
+    return JsonResponse({"status": "error"})
 
 @csrf_exempt
 # @require_http_methods(["POST"])
@@ -138,7 +138,7 @@ def login_user(request):
             response.set_cookie('username', username)
             return response
 
-    return JsonResponse({"status": "ERROR"})
+    return JsonResponse({"status": "error"})
 
 
 @csrf_exempt
