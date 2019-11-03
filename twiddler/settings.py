@@ -83,7 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'twiddler',
-        'HOST': '130.245.169.94',
+        'HOST': '130.245.168.176',
     }
 }
 
